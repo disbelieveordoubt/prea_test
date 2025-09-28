@@ -1,0 +1,51 @@
+# Research data and logs
+oldresearch/
+research_logs/
+*.log
+
+# API Keys and Sensitive Credentials
+*.env
+*.key
+*.pem
+*credentials*
+config.json
+
+# Python-specific ignores
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Jupyter Notebook temporary files
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# System and IDE files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+Thumbs.db
+
+# Research output and temporary files
+*.tmp
+*.bak
+analysis/temp/
+*.csv~
+*~
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
