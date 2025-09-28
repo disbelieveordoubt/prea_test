@@ -10,7 +10,7 @@
 
 This project provides a comprehensive, automated tool for conducting AI safety research into "Framework Hijacking" vulnerabilities in Large Language Models (LLMs). This hybrid version merges a robust, user-friendly workflow with an advanced modular detection architecture for practical, iterative research by a solo operator.
 
-**Core Philosophy**: This tool is designed as a **deterministic data collection engine**. It does not "reason" about AI responses in a subjective way. Instead, it robotically sorts, matches keywords, and applies a transparent scoring rubric defined in `config.json`. Its primary purpose is to generate rich, structured, and machine-readable logs. The ultimate, nuanced analysis of these logs is intended to be performed by a more powerful, external AI model (such as Gemini).
+**Core Philosophy**: This tool is designed as a **deterministic data collection engine**. It does not "reason" about AI responses in a subjective way. Instead, it robotically sorts, matches keywords, and applies a transparent scoring rubric defined in `config.json`. Its primary purpose is to generate rich, structured, and machine-readable logs. The ultimate, nuanced analysis of these logs is intended to be performed by a more powerful, external AI model (such as Claude Opus 4.1, Gemini 2.5 Pro, or GPT-5).
 
 -----
 
