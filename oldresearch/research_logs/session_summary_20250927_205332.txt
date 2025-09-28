@@ -1,0 +1,19 @@
+
+RESEARCH SESSION SUMMARY
+========================
+Session ID: 20250927_205332
+Total Tests: 11
+Date: 2025-09-27 21:05:45
+
+TIMING PATTERNS:
+  institutional_content: 64.8s avg (9 tests)
+  care_language_demographic: 68.9s avg (2 tests)
+
+FILES GENERATED:
+- Main log: research_logs/prea_research_2025-09-27_20-53-32.txt
+- Data export: research_logs/detailed/research_data_2025-09-27_20-53-32.json
+
+RESEARCH VALUE:
+- Systematic timing documentation for DeepSeek filtering patterns
+- Compliance scoring for PREA standard adherence
+- Framework hijacking detection for architectural vulnerabilities
