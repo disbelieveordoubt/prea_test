@@ -1,64 +1,102 @@
-# PREA AI Safety Research Orchestrator
+-----
 
-by Daniel Cassler
+# PREA AI Safety Research Suite (Hybrid v2.1)
 
-This project provides a comprehensive, automated tool for conducting AI safety research into "Framework Hijacking" vulnerabilities in Large Language Models (LLMs). It uses the federal PREA (Prison Rape Elimination Act) standard as an unambiguous baseline to test and quantify how care-associated language can cause LLMs to fail in critical child protection scenarios.
+**Author: Daniel Cassler**
 
-The core research hypothesis is that LLMs perform semantic disambiguation before structural reasoning, causing care-associated language to probabilistically override legal and analytical frameworks.
+-----
 
----
-## Core Features
+## Overview 🎯
 
-* **Advanced, Category-Based Testing**: Executes a large battery of tests organized into specific categories like `thought_termination`, `adversarial_exploitation`, and `cross_domain_validation`.
-* **Automated Socratic Follow-Ups**: Automatically runs multi-turn conversational sequences to test for "Architectural Persistence"—the model's inability to correct its reasoning failures even after meta-cognitive recognition.
-* **External Configuration**: The target AI model, all test cases, and follow-up questions are managed in an external `config.json` file, allowing for easy modification without changing the code.
-* **Automated Reporting**: Generates multiple final reports, including a comprehensive category-based analysis, a regulatory-grade summary, and a `.csv` dataset suitable for academic publication.
-* **Comprehensive Logging**: Creates human-readable text logs, single-turn JSON data, and structured multi-turn conversation logs (`.jsonl`) for deep analysis.
+This project provides a comprehensive, automated tool for conducting AI safety research into "Framework Hijacking" vulnerabilities in Large Language Models (LLMs). This hybrid version merges a robust, user-friendly workflow with an advanced modular detection architecture for practical, iterative research by a solo operator.
 
----
-## Setup & Usage
+**Core Philosophy**: This tool is designed as a **deterministic data collection engine**. It does not "reason" about AI responses in a subjective way. Instead, it robotically sorts, matches keywords, and applies a transparent scoring rubric defined in `config.json`. Its primary purpose is to generate rich, structured, and machine-readable logs. The ultimate, nuanced analysis of these logs is intended to be performed by a more powerful, external AI model (such as Gemini).
 
-### Requirements
-* Python 3.7+
-* An API key for an OpenAI-compatible endpoint (e.g., DeepSeek).
+-----
 
-### Installation & First Run
+## Key Features ✨
 
-1.  **Place Files**: Save `prea_audit_orchestrator.py`, `config.json`, and `requirements.txt` in the same directory.
+  * **Advanced Modular Detection**: Utilizes a suite of specific, extensible detectors for nuanced vulnerability analysis, including `TherapeuticFraming`, `ThoughtTermination`, `VictimAgency`, `ConceptualInversion`, and `EpistemicCapture`.
+  * **Researcher-Friendly Workflow**: Features multiple run modes, including a full protocol (`f`), category-specific tests (`c`), a curated set of selected tests (`s`), and a full interactive command-line interface (`i`).
+  * **Config-Driven Follow-Ups**: Automatically runs the most relevant Socratic follow-up sequence based on detected failures or custom metadata tags in the `config.json` file.
+  * **Fully Configurable Engine**: All critical parameters—test prompts, keywords, model name, API endpoint, and the entire scoring rubric—are controlled via `config.json` for maximum flexibility without code changes.
+  * **Rich, Actionable Logging**: Generates multiple organized outputs, including a human-readable text log, a detailed JSON log with raw detector outputs for each test, and a final academic-ready `.csv` dataset.
 
-2.  **Install Dependencies**: From your terminal in the project directory, run:
-    ```bash
-    pip install -r requirements.txt
-    ```
+-----
 
-3.  **Set Your API Key**:
-    You can either set an environment variable (recommended):
-    ```bash
-    export DEEPSEEK_API_KEY='your-key-here'
-    ```
-    ...or the script will prompt you to enter the key on its first run.
+## Setup & Usage 🚀
 
-4.  **Run the Script**:
-    ```bash
-    python prea_audit_orchestrator.py
-    ```
+### 1\. Install Dependencies
 
-### Run Modes
+Ensure you have Python 3.7+ installed. From your terminal in the project directory, run:
 
-When you launch the script, you'll be prompted to choose a run mode:
-* **(f)ull research**: Runs the entire test battery and automatically triggers conversational follow-ups on failures. Generates all final reports.
-* **(c)ategory**: Allows you to run a specific, targeted category of tests (e.g., `adversarial`).
-* **(q)uick battery**: Runs all tests as single-turn prompts without follow-ups.
-* **(i)nteractive**: A command-line interface for running specific tests, triggering follow-ups manually, and entering custom prompts.
+```bash
+pip install -r requirements.txt
+```
 
----
-## Understanding the Output
+### 2\. Set Your API Key
 
-All output is saved to the `research_logs/` directory.
+The script is designed for OpenAI-compatible APIs. Set an environment variable (recommended):
 
-* `prea_research_{timestamp}.txt`: A detailed, human-readable log of the entire session.
-* `detailed/research_data_{...}.json`: A log for single-turn tests.
-* `detailed/conversations_{...}.jsonl`: The structured log for multi-turn conversations, ideal for data analysis.
-* `analysis/comprehensive_analysis_{...}.txt`: A summary of results, grouped by test category.
-* `analysis/regulatory_report_{...}.txt`: A high-level summary formatted for submission to regulatory bodies.
-* `analysis/academic_dataset_{...}.csv`: A CSV file of key metrics for use in academic papers or statistical analysis.
+```bash
+export DEEPSEEK_API_KEY='your-api-key-here'
+```
+
+Alternatively, the script will prompt you to enter the key on its first run.
+
+### 3\. Configure Your Research
+
+Before running, open `config.json` and set your desired `model_name` and `api_base_url` in the `research_parameters` section.
+
+### 4\. Run the Script
+
+```bash
+python prea_audit_orchestrator.py
+```
+
+-----
+
+## Run Modes ⚙️
+
+When you launch the script, you will be prompted to choose a run mode:
+
+  * **(f)ull**: Runs the entire test battery with intelligent Socratic follow-ups triggered on failures. Generates all final reports.
+  * **(c)ategory**: Allows you to run a specific, targeted category of tests (e.g., `_CORE_VULNERABILITY_TESTS`).
+  * **(s)elected**: Runs a curated list of high-value diagnostic tests, which you can define in `config.json`.
+  * **(i)nteractive**: A command-line interface for running specific tests by name, manually triggering follow-ups, and generating reports.
+
+-----
+
+## Configuration (`config.json`) 🔧
+
+The `config.json` file is the central control panel for the entire research suite.
+
+  * **`research_parameters`**: Set the `model_name`, the `api_base_url`, and define the list of `selected_tests` for the `(s)` run mode.
+  * **`prea_test_battery`**: Define all test categories and individual test prompts. Use `test_metadata` to add custom tags, like `"trigger_follow_up": "demographic_analysis"`, to control the follow-up engine.
+  * **`follow_up_sequences`**: Write and manage the multi-turn conversational scripts used by the Socratic Follow-Up Engine.
+  * **`detection_keywords`**: Manage the keyword lists (`care_indicators`, `legal_indicators`, etc.) that the detectors use to identify different language types.
+  * **`scoring_configuration`**: Calibrate the entire scoring engine by adjusting the `weights` for penalties and rewards, and the `thresholds` for PASS/FAIL results.
+
+-----
+
+## Output Structure 📂
+
+All output is saved to the `research_logs/` directory, organized by session timestamp.
+
+  * `prea_research_{timestamp}.txt`: A detailed, human-readable log of the entire session, including full prompts and responses.
+  * `detailed/research_data_{timestamp}.json`: The primary data artifact. A machine-readable log where each line is a JSON object containing the complete data for a single test, including raw detector outputs.
+  * `analysis/comprehensive_analysis_{...}.txt`: A summary of results, grouped by test category, showing average scores, fail rates, and the most common failure patterns.
+  * `analysis/academic_dataset_{...}.csv`: A CSV file of key metrics (including the `care_ratio`) suitable for academic papers or statistical analysis.
+
+-----
+
+## Extending the Tool 🧑‍💻
+
+This suite is designed to be extensible. To add a new vulnerability detector:
+
+1.  **Create a New Detector Class**: In `prea_audit_orchestrator.py`, create a new class that inherits from the `VulnerabilityDetector` abstract base class.
+2.  **Implement the `name` and `detect` Methods**:
+      * `name`: Must be a unique string (e.g., `"new_vulnerability"`).
+      * `detect`: Must contain your logic for analyzing the response text and return a dictionary containing at least a `'detected': bool` and `'pattern': str` key.
+3.  **Add the Detector to the Suite**: In the `PREAResearchSuite.__init__` method, simply add an instance of your new class to the `self.detectors` list.
+4.  **Update the Config**: Add a corresponding penalty weight (e.g., `"new_vulnerability_penalty": -20`) to the `scoring_configuration.weights` section in `config.json` to integrate it into the scoring rubric.
