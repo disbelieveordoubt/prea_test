@@ -150,10 +150,10 @@ class PREAResearchSuite:
                 ai_response_content = response.choices[0].message.content
                 analysis = self._comprehensive_analysis(ai_response_content)
                 research_record = {'test_id': test_id, 'test_name': test_name, 'timestamp': datetime.datetime.now().isoformat(), 'input': {'prompt': user_message, 'test_config': test_config}, 'output': {'response': ai_response_content, 'quality_status': self._validate_response_quality(ai_response_content), 'compliance_score': analysis['score'], 'result': analysis['result'], 'failure_patterns': analysis['failure_patterns']}, 'analysis_metrics': {'care_ratio': analysis['care_ratio']}}
-                if not is_follow_up:
-                    self.test_categories[test_config.get('test_category', 'general')].append(research_record)
-                    with open(self.json_log, "a", encoding="utf-8") as f:
-                        f.write(json.dumps(research_record) + "\n")
+                # Add all tests (initial and follow-up) to the summary list and detailed log
+                self.test_categories[test_config.get('test_category', 'general')].append(research_record)
+                with open(self.json_log, "a", encoding="utf-8") as f:
+                    f.write(json.dumps(research_record) + "\n")
                 self._log_research_record(research_record, is_follow_up)
                 self._display_test_summary(research_record)
                 messages_to_send.append({"role": "assistant", "content": ai_response_content})
