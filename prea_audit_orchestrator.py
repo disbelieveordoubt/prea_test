@@ -1,5 +1,5 @@
 """
-PREA AI Safety Research Orchestrator (Hybrid v2.2)
+PREA AI Safety Research Orchestrator (Hybrid v2.4)
 Author: Daniel Cassler
 
 This script merges the robust, user-friendly workflow of the original version
@@ -16,6 +16,16 @@ import csv
 from collections import defaultdict
 from abc import ABC, abstractmethod
 from typing import Dict, List, Any
+
+# =================================================================================
+# Session State Tracker
+# =================================================================================
+
+class SessionState:
+    """A simple class to track the status of the research session."""
+    def __init__(self):
+        self.completed_successfully = False
+        self.error_message = None
 
 # =================================================================================
 # MODULAR VULNERABILITY DETECTORS
@@ -82,7 +92,8 @@ class EpistemicCaptureDetector(VulnerabilityDetector):
 # =================================================================================
 
 class PREAResearchSuite:
-    def __init__(self, model_name, api_base_url, config):
+    def __init__(self, model_name, api_base_url, config, session_state):
+        self.session_state = session_state
         api_key = os.getenv('DEEPSEEK_API_KEY')
         if not api_key:
             print("⚠️  DEEPSEEK_API_KEY environment variable not set.")
@@ -114,7 +125,7 @@ class PREAResearchSuite:
 
         with open(self.log_file, "w", encoding="utf-8") as f:
             f.write(f"PREA AI Safety Research Session: {self.session_id}\n" + "="*80 + "\n")
-            f.write("RESEARCH SUITE VERSION: Hybrid v2.2\n" + "="*80 + "\n\n")
+            f.write("RESEARCH SUITE VERSION: Hybrid v2.4\n" + "="*80 + "\n\n")
         print(f"🔬 Research logs initialized in: '{self.session_dir}/'")
 
     def validate_response_quality(self, response: str) -> str:
@@ -165,38 +176,68 @@ class PREAResearchSuite:
         self.test_counter += 1
         test_id = f"{self.test_counter:02d}_{test_name}" if test_name else f"custom_{self.test_counter:02d}"
         print(f"\n{'='*60}\n🧪 TEST: {test_id}\n{'='*60}")
-        try:
-            messages_to_send = list(conversation_history) if conversation_history else []
-            messages_to_send.append({"role": "user", "content": user_message})
-            response = self.client.chat.completions.create(model=self.model_name, messages=messages_to_send, max_tokens=2000, temperature=0.1)
-            if not response.choices or not response.choices[0].message: raise ValueError("Invalid API response")
-            ai_response = response.choices[0].message.content
-            analysis = self.comprehensive_analysis(ai_response)
+        
+        max_retries = 3
+        retry_delay = 2
+
+        for attempt in range(max_retries):
+            try:
+                messages_to_send = list(conversation_history) if conversation_history else []
+                messages_to_send.append({"role": "user", "content": user_message})
+                
+                response = self.client.chat.completions.create(
+                    model=self.model_name, 
+                    messages=messages_to_send, 
+                    max_tokens=2000, 
+                    temperature=0.1
+                )
+                
+                if not response.choices or not response.choices[0].message:
+                    raise ValueError("Invalid API response structure: No choices or message found.")
+                
+                ai_response_content = response.choices[0].message.content
+                analysis = self.comprehensive_analysis(ai_response_content)
+                
+                research_record = {
+                    'test_id': test_id, 'test_name': test_name, 'timestamp': datetime.datetime.now().isoformat(),
+                    'input': {'prompt': user_message, 'test_config': test_config},
+                    'output': {
+                        'response': ai_response_content, 'quality_status': self.validate_response_quality(ai_response_content),
+                        'compliance_score': analysis['score'], 'result': analysis['result'],
+                        'failure_patterns': analysis['failure_patterns'],
+                        'framework_hijacking_detected': 'FRAMEWORK_HIJACKING' in analysis['failure_patterns']
+                    },
+                    'analysis_metrics': {'care_ratio': analysis['care_ratio'], 'raw_detector_outputs': analysis['raw_detector_outputs']}
+                }
+                
+                if not is_follow_up:
+                    self.categorize_test_results(test_config.get('test_category', 'general'), research_record)
+                    with open(self.json_log, "a", encoding="utf-8") as f: f.write(json.dumps(research_record) + "\n")
+                
+                self.log_research_record(research_record, is_follow_up)
+                self._display_test_summary(research_record)
+                
+                messages_to_send.append({"role": "assistant", "content": ai_response_content})
+                return ai_response_content, research_record, messages_to_send
+
+            except (openai.APIStatusError, openai.APIConnectionError, openai.RateLimitError) as e:
+                print(f"  └─ ⚠️  API Error ({type(e).__name__}) on attempt {attempt + 1}/{max_retries}. Retrying in {retry_delay}s...")
+                time.sleep(retry_delay)
+                retry_delay *= 2
             
-            research_record = {
-                'test_id': test_id, 'test_name': test_name, 'timestamp': datetime.datetime.now().isoformat(),
-                'input': {'prompt': user_message, 'test_config': test_config},
-                'output': {
-                    'response': ai_response, 'quality_status': self.validate_response_quality(ai_response),
-                    'compliance_score': analysis['score'], 'result': analysis['result'],
-                    'failure_patterns': analysis['failure_patterns'],
-                    'framework_hijacking_detected': 'FRAMEWORK_HIJACKING' in analysis['failure_patterns']
-                },
-                'analysis_metrics': {'care_ratio': analysis['care_ratio'], 'raw_detector_outputs': analysis['raw_detector_outputs']}
-            }
-            if not is_follow_up:
-                self.categorize_test_results(test_config.get('test_category', 'general'), research_record)
-                with open(self.json_log, "a", encoding="utf-8") as f: f.write(json.dumps(research_record) + "\n")
-            
-            self.log_research_record(research_record, is_follow_up)
-            self._display_test_summary(research_record)
-            messages_to_send.append({"role": "assistant", "content": ai_response})
-            return ai_response, research_record, messages_to_send
-        except Exception as e:
-            error_record = {'test_id': test_id, 'error': str(e), 'timestamp': datetime.datetime.now().isoformat()}
-            print(f"❌ ERROR in test {test_id}: {e}")
-            self.log_error(error_record)
-            return f"ERROR: {str(e)}", error_record, conversation_history
+            except json.JSONDecodeError as e:
+                error_details = f"Failed to decode JSON. Raw response might be HTML or empty."
+                print(f"  └─ ❌  CRITICAL ERROR: {error_details}")
+                self.log_error({'test_id': test_id, 'error': str(e), 'details': error_details, 'timestamp': datetime.datetime.now().isoformat()})
+                raise e
+
+            except Exception as e:
+                print(f"  └─ ❌  An unexpected error occurred: {e}")
+                raise e
+
+        final_error_msg = f"API call failed after {max_retries} retries."
+        print(f"  └─ ❌  CRITICAL FAILURE: {final_error_msg}")
+        raise RuntimeError(final_error_msg)
 
     def _display_test_summary(self, record: Dict[str, Any]):
         output = record.get('output', {})
@@ -211,10 +252,22 @@ class PREAResearchSuite:
 
     def display_session_summary(self):
         print("\n" + "="*60)
-        print("📊 SESSION SUMMARY")
-        print("="*60)
+        
+        if not self.session_state.completed_successfully:
+            print("🚨 SESSION INCOMPLETE 🚨")
+            print("="*60)
+            print("The research run did NOT complete successfully.")
+            print("The following critical error occurred:")
+            print(f"\n    ERROR: {self.session_state.error_message}\n")
+            print("The logs and results generated are PARTIAL. Please review the error before proceeding.")
+        else:
+            print("✅ SESSION COMPLETE ✅")
+            print("="*60)
+            print("The research run completed successfully.")
+
         if not self.test_categories:
-            print("No tests were run in this session.")
+            print("\nNo tests were run in this session.")
+            print("="*60)
             return
             
         all_results = [result for category_results in self.test_categories.values() for result in category_results]
@@ -227,7 +280,7 @@ class PREAResearchSuite:
             for pattern in record['output']['failure_patterns']:
                 pattern_counts[pattern] += 1
                 
-        print(f"Total Tests Run: {total_tests}\n")
+        print(f"\nTotal Tests Run: {total_tests}\n")
         print("Result Breakdown:")
         for result_type in ["PASS", "MARGINAL", "FAIL", "CRITICAL_FAIL"]:
             count = result_counts[result_type]
@@ -253,7 +306,7 @@ class PREAResearchSuite:
 
     def log_error(self, error_record):
         with open(self.log_file, "a", encoding="utf-8") as f:
-            f.write(f"ERROR: {error_record['test_id']} - {error_record['timestamp']}\nDETAILS: {error_record['error']}\n\n")
+            f.write(f"ERROR: {error_record.get('test_id', 'N/A')} - {error_record.get('timestamp')}\nDETAILS: {error_record.get('error')}\n{error_record.get('details', '')}\n\n")
 
     def generate_all_reports(self):
         self.generate_comprehensive_analysis()
@@ -356,98 +409,106 @@ def show_interactive_help():
     print("\n--- Interactive Mode Commands ---\n  <test_name> | list | follow | summary | help | quit\n---------------------------------")
 
 def main():
-    print("🔬 PREA AI Safety Research Suite (Hybrid v2.2)")
+    print("🔬 PREA AI Safety Research Suite (Hybrid v2.4)")
     print("="*60)
     print("This tool runs a battery of tests to detect 'Framework Hijacking'")
     print("vulnerabilities in Large Language Models. All outputs are saved to the")
     print("'research_logs' directory.")
     print("="*60)
+    
+    session_state = SessionState()
+    research = None
+
     try:
         with open("config.json", "r", encoding="utf-8") as f: config = json.load(f)
         research_params = config.get("research_parameters")
         if not research_params:
             print("❌ ERROR: 'research_parameters' key is missing from config.json."); exit(1)
+        
         prea_test_battery_structured = config["prea_test_battery"]
         prea_test_battery_flat = get_test_battery_from_config(config)
         follow_up_sequences = config["follow_up_sequences"]
-    except FileNotFoundError:
-        print("❌ ERROR: config.json not found in this directory."); exit(1)
-    except json.JSONDecodeError:
-        print("❌ ERROR: config.json is not formatted correctly. Please validate the JSON syntax."); exit(1)
-    except KeyError as e:
-        print(f"❌ ERROR: config.json is missing a required section: {e}"); exit(1)
-    
-    research = PREAResearchSuite(
-        model_name=research_params.get("model_name", "deepseek-chat"),
-        api_base_url=research_params.get("api_base_url", "https://api.deepseek.com/v1"),
-        config=config
-    )
-    follow_up_engine = SocraticFollowUpEngine(research, follow_up_sequences)
-    
-    while True:
-        mode = input("\nRun mode: (f)ull, (c)ategory, (s)elected, (i)nteractive, or (quit): ").strip().lower()
-        if mode in ['f', 'c', 's', 'i', 'quit']:
-            break
-        print("❌ Invalid mode selected. Please try again.")
+        
+        research = PREAResearchSuite(
+            model_name=research_params.get("model_name", "deepseek-chat"),
+            api_base_url=research_params.get("api_base_url", "https://api.deepseek.com/v1"),
+            config=config,
+            session_state=session_state
+        )
+        follow_up_engine = SocraticFollowUpEngine(research, follow_up_sequences)
+        
+        while True:
+            mode = input("\nRun mode: (f)ull, (c)ategory, (s)elected, (i)nteractive, or (quit): ").strip().lower()
+            if mode in ['f', 'c', 's', 'i', 'quit']:
+                break
+            print("❌ Invalid mode selected. Please try again.")
 
-    if mode == 'quit':
-        pass
-    elif mode == 'f':
-        print("\n🚀 Running FULL RESEARCH PROTOCOL...")
-        for test_name, test_config in prea_test_battery_flat.items():
-            response, record, _ = research.send_message(user_message=test_config['prompt'], test_name=test_name, test_config=test_config)
-            if record.get('output', {}).get('result') in ['FAIL', 'CRITICAL_FAIL']:
-                follow_up_engine.run_follow_up_sequence(response, record)
-            time.sleep(1)
-        research.generate_all_reports()
-
-    elif mode == 'c':
-        print("\nAvailable categories:")
-        for cat in prea_test_battery_structured.keys(): print(f"  - {cat}")
-        selected_cat = input("Enter category to run: ").strip()
-        if selected_cat in prea_test_battery_structured:
-            print(f"\n🔬 Running category: {selected_cat}")
-            for test_name, test_config in prea_test_battery_structured[selected_cat].items():
-                research.send_message(user_message=test_config['prompt'], test_name=test_name, test_config=test_config)
+        if mode == 'quit':
+            pass
+        elif mode == 'f':
+            print("\n🚀 Running FULL RESEARCH PROTOCOL...")
+            for test_name, test_config in prea_test_battery_flat.items():
+                response, record, _ = research.send_message(user_message=test_config['prompt'], test_name=test_name, test_config=test_config)
+                if record and record.get('output', {}).get('result') in ['FAIL', 'CRITICAL_FAIL']:
+                    follow_up_engine.run_follow_up_sequence(response, record)
                 time.sleep(1)
             research.generate_all_reports()
-        else:
-            print("❌ Category not found.")
 
-    elif mode == 's':
-        selected_tests = research_params.get("selected_tests")
-        if not selected_tests:
-            print("❌ No tests defined in config.json under 'research_parameters.selected_tests'")
-        else:
-            print(f"\n🎯 Running {len(selected_tests)} selected high-value tests...")
-            for test_name in selected_tests:
-                if test_name in prea_test_battery_flat:
-                    test_config = prea_test_battery_flat[test_name]
+        elif mode == 'c':
+            print("\nAvailable categories:")
+            for cat in prea_test_battery_structured.keys(): print(f"  - {cat}")
+            selected_cat = input("Enter category to run: ").strip()
+            if selected_cat in prea_test_battery_structured:
+                print(f"\n🔬 Running category: {selected_cat}")
+                for test_name, test_config in prea_test_battery_structured[selected_cat].items():
                     research.send_message(user_message=test_config['prompt'], test_name=test_name, test_config=test_config)
                     time.sleep(1)
-            research.generate_all_reports()
-    
-    elif mode == 'i':
-        show_interactive_help()
-        last_response, last_record = None, None
-        while True:
-            command = input("\n🔬 Interactive Command ('help' for options): ").strip()
-            if command in ['quit', 'exit']: break
-            elif command == 'help': show_interactive_help()
-            elif command == 'list': 
-                for name in prea_test_battery_flat.keys(): print(f"  - {name}")
-            elif command == 'summary': research.generate_all_reports()
-            elif command == 'follow':
-                if last_record: follow_up_engine.run_follow_up_sequence(last_response, last_record)
-                else: print("❌ No previous test to follow-up on.")
-            elif command in prea_test_battery_flat:
-                test_config = prea_test_battery_flat[command]
-                last_response, last_record, _ = research.send_message(user_message=test_config['prompt'], test_name=command, test_config=test_config)
+                research.generate_all_reports()
             else:
-                print("❌ Unknown command or test name. Type 'list' to see available tests.")
+                print("❌ Category not found.")
 
-    print("\n👋 Research session complete.")
-    research.display_session_summary()
+        elif mode == 's':
+            selected_tests = research_params.get("selected_tests")
+            if not selected_tests:
+                print("❌ No tests defined in config.json under 'research_parameters.selected_tests'")
+            else:
+                print(f"\n🎯 Running {len(selected_tests)} selected high-value tests...")
+                for test_name in selected_tests:
+                    if test_name in prea_test_battery_flat:
+                        test_config = prea_test_battery_flat[test_name]
+                        research.send_message(user_message=test_config['prompt'], test_name=test_name, test_config=test_config)
+                        time.sleep(1)
+                research.generate_all_reports()
+        
+        elif mode == 'i':
+            show_interactive_help()
+            last_response, last_record = None, None
+            while True:
+                command = input("\n🔬 Interactive Command ('help' for options): ").strip()
+                if command in ['quit', 'exit']: break
+                elif command == 'help': show_interactive_help()
+                elif command == 'list': 
+                    for name in prea_test_battery_flat.keys(): print(f"  - {name}")
+                elif command == 'summary': research.generate_all_reports()
+                elif command == 'follow':
+                    if last_record: follow_up_engine.run_follow_up_sequence(last_response, last_record)
+                    else: print("❌ No previous test to follow-up on.")
+                elif command in prea_test_battery_flat:
+                    test_config = prea_test_battery_flat[command]
+                    last_response, last_record, _ = research.send_message(user_message=test_config['prompt'], test_name=command, test_config=test_config)
+                else:
+                    print("❌ Unknown command or test name. Type 'list' to see available tests.")
+        
+        session_state.completed_successfully = True
+
+    except Exception as e:
+        print(f"\n\n💥 CRITICAL ERROR: A fatal exception occurred: {e}")
+        session_state.error_message = str(e)
+    
+    finally:
+        if research:
+            print("\n👋 Research session finished.")
+            research.display_session_summary()
 
 if __name__ == "__main__":
     main()
