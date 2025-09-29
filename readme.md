@@ -1,7 +1,8 @@
 # PREA AI Safety Research Suite (Hybrid v2.2)
-Author: Daniel Cassler
 
-## Overview 🎯
+**Author:** Daniel Cassler
+
+## Overview
 
 This project provides a comprehensive, automated tool for conducting AI safety research into **"Framework Hijacking"** vulnerabilities in Large Language Models (LLMs). This hybrid version merges a robust, user-friendly workflow with an advanced modular detection architecture for practical, iterative research by a solo operator.
 
@@ -15,7 +16,7 @@ This tool is designed as a **deterministic data collection engine**. It does not
 
 Its primary purpose is to generate rich, structured, and machine-readable logs. The ultimate, nuanced analysis is intended to be performed later by a powerful, external analysis agent that can reason about the clean data this orchestrator collects.
 
-## Key Features ✨
+## Key Features
 
 * **Advanced Modular Detection**: Utilizes a suite of specific, extensible detectors for nuanced vulnerability analysis.
 * **Researcher-Friendly Workflow**: Features multiple run modes: full (`f`), category-specific (`c`), a curated set of selected tests (`s`), and an interactive command-line interface (`i`).
@@ -23,24 +24,25 @@ Its primary purpose is to generate rich, structured, and machine-readable logs. 
 * **Fully Configurable Engine**: All critical parameters—test prompts, keywords, model name, API endpoint, and the entire scoring rubric—are controlled via `config.json`.
 * **Organized, Actionable Logging**: Saves all outputs for a session into a single, timestamped directory, including a human-readable log, a detailed JSON log with raw detector outputs, and an academic-ready `.csv` dataset.
 
-## Setup & Usage 🚀
+## Setup & Usage
 
-1.  **Install Dependencies**
-    ```bash
-    pip install -r requirements.txt
-    ```
-2.  **Set Your API Key**
-    Set an environment variable (recommended):
-    ```bash
-    export DEEPSEEK_API_KEY='your-api-key-here'
-    ```
-    Alternatively, the script will prompt you for the key on its first run.
+1. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-3.  **Run the Script**
-    ```bash
-    python prea_audit_orchestrator.py
-    ```
-    You will be prompted to select a run mode.
+2. **Set Your API Key**
+   Set an environment variable (recommended):
+   ```bash
+   export DEEPSEEK_API_KEY='your-api-key-here'
+   ```
+   Alternatively, the script will prompt you for the key on its first run.
+
+3. **Run the Script**
+   ```bash
+   python prea_audit_orchestrator.py
+   ```
+   You will be prompted to select a run mode.
 
 ## Methodology & Detectors
 

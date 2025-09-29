@@ -1,0 +1,22 @@
+{
+  "user": {
+    "name": "Daniel",
+    "age": 44,
+    "notes": "On the autism spectrum. Learns differently, sometimes very quickly and sometimes slowly."
+  },
+  "preferences": {
+    "verbosity": "normal",
+    "theme": "dark",
+    "statusline_script": "H:\\dropbox\\redteam\\prea_test\\.gemini\\gemini-statusline.ps1"
+  },
+  "agent_rules": {
+    "directory_access": {
+      "allow": [
+        ".gemini"
+      ],
+      "deny": [
+        ".claude"
+      ]
+    }
+  }
+}
