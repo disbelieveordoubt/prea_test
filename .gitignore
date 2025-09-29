@@ -8,7 +8,7 @@ research_logs/
 *.key
 *.pem
 *credentials*
-config.json
+config.old.json
 
 # Python-specific ignores
 __pycache__/
@@ -45,6 +45,7 @@ Thumbs.db
 analysis/temp/
 *.csv~
 *~
+sonnetlog.*
 
 # Test artifacts
 .pytest_cache/
