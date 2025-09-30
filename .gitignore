@@ -9,6 +9,8 @@ research_logs/
 *.pem
 *credentials*
 config.old.json
+*.old.json
+config.bak
 
 # Python-specific ignores
 __pycache__/
@@ -34,6 +36,7 @@ env/
 .DS_Store
 .vscode/
 .idea/
+.claude/
 .gemini/
 *.swp
 *.swo
@@ -42,12 +45,28 @@ Thumbs.db
 # Research output and temporary files
 *.tmp
 *.bak
+*.gitignore.tmp.*
 analysis/temp/
 *.csv~
 *~
 sonnetlog.*
+input.txt
 
 # Test artifacts
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Node.js
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Binary files and archives
+*.exe
+*.zip
+*.tar.gz
+*.dmg
+bin/
