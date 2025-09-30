@@ -1,0 +1,122 @@
+{
+  "perplexity_pro_optimizer": {
+    "name": "Perplexity Pro Research Master",
+    "description": "Maximizes unlimited Perplexity Pro usage with frontier models for research",
+    "primary_use_cases": {
+      "unlimited_research": [
+        "Framework hijacking literature review using Claude 4 Sonnet",
+        "AI safety methodology exploration with GPT-5 Thinking",
+        "PREA compliance research with Gemini 2.5 Pro",
+        "Vulnerability pattern analysis across models",
+        "Academic paper synthesis and cross-referencing",
+        "Theoretical framework development",
+        "Research methodology validation"
+      ],
+      "model_selection_strategy": {
+        "claude_4_sonnet": "Deep analysis, structured reasoning, security research",
+        "gpt5_thinking": "Complex problem decomposition, step-by-step methodology",
+        "gemini_2.5_pro": "Creative research approaches, alternative perspectives"
+      }
+    },
+    "context_optimization": {
+      "limited_context_workarounds": [
+        "Break research into focused sub-questions",
+        "Use structured prompts with clear objectives",
+        "Create research session chains with handoff summaries",
+        "Compress essential context into bullet points"
+      ],
+      "prompt_templates": {
+        "research_session": "AI Safety Research Session: Framework Hijacking in LLMs\n\nContext: PREA-based vulnerability detection\nObjective: [SPECIFIC_RESEARCH_GOAL]\nModel: [CHOSEN_MODEL] for [REASONING]\n\nQuestion: [DETAILED_QUERY]",
+        "session_handoff": "Previous findings summary:\n- Key insights: [BULLETS]\n- Methodology: [APPROACH]\n- Next focus: [SPECIFIC_DIRECTION]"
+      }
+    },
+    "research_workflow": {
+      "exploration_phase": "Use Gemini 2.5 Pro for creative hypothesis generation",
+      "analysis_phase": "Use Claude 4 Sonnet for structured vulnerability analysis",
+      "synthesis_phase": "Use GPT-5 Thinking for methodology integration"
+    }
+  },
+
+  "claude_vs_google_decision_agent": {
+    "name": "Subscription Decision Optimizer",
+    "description": "Guides renewal decisions between Claude Pro and Google AI Pro",
+    "decision_matrix": {
+      "choose_claude_pro_if": [
+        "Primary need: Deep codebase analysis and modification",
+        "Frequent file editing and debugging sessions",
+        "Long-context conversations about specific code",
+        "Integrated development environment needs",
+        "Complex multi-file project management"
+      ],
+      "choose_google_ai_pro_if": [
+        "Primary need: Research and conceptual work",
+        "Gemini integration with Google ecosystem",
+        "Collaborative research workflows",
+        "Alternative perspective to Perplexity's models",
+        "Cost-effective unlimited usage"
+      ]
+    },
+    "hybrid_strategy": {
+      "if_keeping_claude": "Use for implementation, Perplexity for research",
+      "if_keeping_google": "Use for research backup, Perplexity primary",
+      "current_optimization": "Perplexity Pro handles 80% of work, paid subscription for specialized tasks"
+    }
+  },
+
+  "context_aware_workflow": {
+    "name": "Limited Context Workflow Manager",
+    "description": "Optimizes workflows for tools with context limitations",
+    "strategies": {
+      "research_session_design": {
+        "session_length": "Focus on single research questions per session",
+        "context_compression": "Distill PREA project to 2-3 key sentences",
+        "progressive_disclosure": "Build complexity across multiple focused sessions"
+      },
+      "handoff_protocols": {
+        "perplexity_to_claude": "Research findings → Implementation plan",
+        "claude_to_perplexity": "Technical challenges → Research solutions",
+        "cross_model_validation": "Get multiple perspectives on same problem"
+      }
+    }
+  },
+
+  "research_to_implementation_pipeline": {
+    "name": "Research-Implementation Pipeline",
+    "description": "Seamless workflow from Perplexity research to code implementation",
+    "pipeline_stages": {
+      "stage_1_research": {
+        "tool": "Perplexity Pro",
+        "models": ["Claude 4 Sonnet", "GPT-5 Thinking", "Gemini 2.5 Pro"],
+        "output": "Research findings, methodology, theoretical framework"
+      },
+      "stage_2_planning": {
+        "tool": "Perplexity Pro or chosen subscription",
+        "focus": "Convert research to implementation strategy",
+        "output": "Technical requirements, code structure, approach"
+      },
+      "stage_3_implementation": {
+        "tool": "Claude Pro (if renewed) or Google AI Pro",
+        "focus": "Actual code changes, file modifications, debugging",
+        "output": "Working code, updated files, tested implementation"
+      }
+    },
+    "efficiency_tips": {
+      "research_phase": "Exhaust Perplexity Pro research before implementation",
+      "implementation_phase": "Come to paid tools with clear, specific technical goals",
+      "validation_phase": "Use Perplexity Pro for testing approaches and validation"
+    }
+  },
+
+  "usage_recommendations": {
+    "optimal_workflow": {
+      "daily_research": "Perplexity Pro unlimited - explore, analyze, synthesize",
+      "implementation_decisions": "Paid subscription - specific, targeted code work",
+      "subscription_choice": "Evaluate monthly based on implementation vs research ratio"
+    },
+    "cost_effectiveness": {
+      "perplexity_carries_load": "90% of intellectual work on unlimited Perplexity",
+      "paid_subscription_focused": "10% high-value implementation on paid tools",
+      "renewal_strategy": "Choose Claude for code-heavy months, Google for research-heavy months"
+    }
+  }
+}
