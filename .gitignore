@@ -69,6 +69,11 @@ server.js
 # Backup files
 README.bak.md
 
+# Personal workflow and optimization files (local/dev only)
+resource_optimization_agents.json
+usage_knowledge_agent.md
+crimson_audit_monitoring_protocol.md
+
 # Binary files and archives
 *.exe
 *.zip
