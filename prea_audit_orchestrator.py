@@ -1,7 +1,14 @@
+# Copyright 2025 Daniel Cassler
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# CASSLER-PREA Safety Audit v4.0 - Research Orchestrator
+# Author: Daniel Cassler
+# Contact: dcassler@gmail.com
 """
-PREA AI Safety Research Orchestrator v4.0 - Enhanced Edition
-Author: Daniel Cassler
-
 Enhanced features:
 - Conditional follow-up sequences
 - Performance monitoring
@@ -13,7 +20,6 @@ Enhanced features:
 - Framework sliding analysis
 - Linguistic determinism detection
 
-This script is a "dumb robot" that:
 1. Sends prompts from config.json
 2. Detects linguistic patterns in responses
 3. Logs everything for external AI analysis

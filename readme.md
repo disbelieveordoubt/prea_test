@@ -653,3 +653,15 @@ This is not a "bias" that can be fixed with training - it's an **architectural v
 **Methodology:** CASSLER_PREA_AUDIT_v8-4.md  
 **Ethical Framework:** EthicalFoundations-Solo2.md  
 **Research Background:** See included research documents for full context
+
+## License & Attribution
+
+This research is licensed under Apache 2.0. See [LICENSE](LICENSE) for details.
+
+When using this methodology, you must cite:
+
+Cassler, D. (2025). The Cassler-PREA Safety Audit v8.5: A Protocol for 
+Detecting Linguistically-Determined Reasoning Failures in AI Child Protection 
+Systems Using Semantic Gradient Analysis. Independent Research.
+
+Contact: dcassler@gmail.com | linkedin.com/in/danielvermont
