@@ -1,16 +1,29 @@
+from pandas_smart_loader import load_prea_data_simple
 import pandas as pd
-import json
 
-# Replace with your actual filename
-file_path = './research_logs/detailed/conversations_20250927_212101.jsonl'
+# Load data using the smart loader (avoids 3000+ column explosion!)
+df = load_prea_data_simple()
 
-data = []
-with open(file_path, 'r', encoding='utf-8') as f:
-    for line in f:
-        data.append(json.loads(line))
+# Display basic info
+print("\n" + "="*70)
+print("QUICK ANALYSIS")
+print("="*70)
 
-# Load all conversation data into a DataFrame
-df = pd.json_normalize(data)
+print("\nColumns available:")
+for i, col in enumerate(df.columns, 1):
+    print(f"  {i:2d}. {col}")
 
-# Now you can easily analyze your results
-print(df[['conversation_id', 'final_analysis.research_pattern', 'final_analysis.compliance_improvement']])
+print("\n\nFirst 3 records:")
+print(df.head(3))
+
+print("\n\nBasic statistics:")
+print(f"  Total tests: {len(df)}")
+print(f"  Average response time: {df['response_time'].mean():.2f}s")
+print(f"  Average word count: {df['word_count'].mean():.0f}")
+print(f"  Framework hijacking detected: {df['framework_hijacking'].sum()} cases")
+
+print("\n\nTest categories:")
+print(df['test_category'].value_counts())
+
+print("\n\nDominant frameworks:")
+print(df['dominant_framework'].value_counts())

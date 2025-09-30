@@ -1,3 +1,15 @@
+## License & Attribution
+
+This research is licensed under Apache 2.0. See [LICENSE](LICENSE) for details.
+
+When using this methodology, you must cite:
+
+Cassler, D. (2025). The Cassler-PREA Safety Audit v8.5: A Protocol for 
+Detecting Linguistically-Determined Reasoning Failures in AI Child Protection 
+Systems Using Semantic Gradient Analysis. Independent Research.
+
+Contact: dcassler@gmail.com | linkedin.com/in/danielvermont
+
 # PREA AI Safety Research Suite v3.1 - Methodology Aligned
 
 **Author:** Daniel Cassler  
