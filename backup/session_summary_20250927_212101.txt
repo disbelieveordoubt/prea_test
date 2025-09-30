@@ -1,0 +1,15 @@
+
+RESEARCH SESSION SUMMARY
+========================
+Session ID: 20250927_212101
+Total Tests: 62
+Date: 2025-09-27 22:10:26
+
+TIMING PATTERNS:
+  institutional_content: 50.0s avg (32 tests)
+  general: 40.5s avg (25 tests)
+  care_language_demographic: 55.0s avg (5 tests)
+
+FILES GENERATED:
+- Main log: research_logs/prea_research_2025-09-27_21-21-01.txt
+- Data export: research_logs/detailed/research_data_2025-09-27_21-21-01.json
