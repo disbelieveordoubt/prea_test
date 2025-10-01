@@ -1,2 +1,13 @@
-openai>=1.0.0
-python-dotenv>=1.0.0
+# PREA AI Safety Research Suite - Core Dependencies
+# =================================================
+# For research reproducibility, all versions are pinned.
+# Last updated: 2025-09-30
+
+# Core Runtime Dependency
+# -----------------------
+openai==1.109.1  # DeepSeek API client (OpenAI-compatible)
+
+# That's it! The research suite only needs the OpenAI SDK.
+# CSV export uses Python's built-in csv module.
+# JSON logging uses Python's built-in json module.
+# No pandas, numpy, or jupyter required for core functionality.
