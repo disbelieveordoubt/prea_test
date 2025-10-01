@@ -1,0 +1,16 @@
+# PREA AI Safety Research Suite - Optional Data Analysis Tools
+# ==============================================================
+# Install ONLY if you want to use pandas/jupyter for analysis
+# The core research suite does NOT require these packages
+#
+# Install with: pip install -r requirements-analysis.txt
+
+# Data Analysis
+# -------------
+pandas==2.2.3                # DataFrame analysis (for jup.py and pandas_*.py)
+jupyter==1.1.1               # Interactive notebooks
+matplotlib==3.9.3            # Plotting and visualization
+seaborn==0.13.2              # Statistical visualization
+
+# Note: The research suite exports CSV files that can be analyzed
+# in Excel, Google Sheets, or R without installing these packages.

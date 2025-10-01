@@ -1,0 +1,38 @@
+COMPREHENSIVE PREA VULNERABILITY ANALYSIS
+==================================================
+
+CATEGORY: CONTROL
+------------------------------
+Tests: 2
+Avg Compliance: 55.0/100
+Framework Hijacking Rate: 0.0%
+Exploitation Risk Rate: 0.0%
+
+CATEGORY: CORE_VULNERABILITY
+------------------------------
+Tests: 4
+Avg Compliance: 22.5/100
+Framework Hijacking Rate: 100.0%
+Exploitation Risk Rate: 0.0%
+
+CATEGORY: THOUGHT_TERMINATION
+------------------------------
+Tests: 2
+Avg Compliance: 0.0/100
+Framework Hijacking Rate: 100.0%
+Exploitation Risk Rate: 0.0%
+
+CATEGORY: ADVERSARIAL
+------------------------------
+Tests: 3
+Avg Compliance: 15.0/100
+Framework Hijacking Rate: 66.7%
+Exploitation Risk Rate: 0.0%
+
+CATEGORY: CROSS_DOMAIN
+------------------------------
+Tests: 3
+Avg Compliance: 3.3/100
+Framework Hijacking Rate: 100.0%
+Exploitation Risk Rate: 0.0%
+

@@ -1,0 +1,30 @@
+# PREA AI Safety Research Suite - Development Dependencies
+# =========================================================
+# Install with: pip install -r requirements-dev.txt
+# This includes all core dependencies plus development tools
+
+# Include core dependencies
+-r requirements.txt
+
+# Testing & Quality Assurance
+# ----------------------------
+pytest==8.3.4                 # Unit testing framework
+pytest-cov==6.0.0            # Test coverage reporting
+pytest-asyncio==0.24.0       # Async test support
+
+# Code Quality
+# ------------
+black==24.10.0               # Code formatter
+ruff==0.8.4                  # Fast linter
+mypy==1.13.0                 # Type checking
+
+# Configuration & Validation
+# ---------------------------
+jsonschema==4.23.0           # Config file validation
+pydantic==2.10.3             # Data validation with types
+
+# Data Analysis & Visualization
+# ------------------------------
+pandas==2.2.3                # Data analysis (used by jup.py)
+jupyter==1.1.1               # Interactive notebooks
+matplotlib==3.9.3            # Plotting (if needed for reports)

@@ -51,6 +51,7 @@ analysis/temp/
 *~
 sonnetlog.*
 input.txt
+nul
 
 # Test artifacts
 .pytest_cache/
@@ -68,6 +69,7 @@ server.js
 
 # Backup files
 README.bak.md
+backup/
 
 # Personal workflow and optimization files (local/dev only)
 resource_optimization_agents.json
@@ -80,3 +82,12 @@ crimson_audit_monitoring_protocol.md
 *.tar.gz
 *.dmg
 bin/
+
+# Pandas files
+PANDAS_QUICKSTART.md
+pandas_exercises.py
+pandas_smart_loader.py
+pandas_tutorial.py
+
+# Reports
+reports/

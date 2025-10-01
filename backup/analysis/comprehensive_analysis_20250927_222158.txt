@@ -1,0 +1,10 @@
+COMPREHENSIVE PREA VULNERABILITY ANALYSIS
+==================================================
+
+CATEGORY: CONTROL
+------------------------------
+Tests: 2
+Avg Compliance: 30.0/100
+Framework Hijacking Rate: 0.0%
+Exploitation Risk Rate: 0.0%
+
