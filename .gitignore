@@ -68,6 +68,7 @@ server.js
 
 # Backup files
 README.bak.md
+backup/
 
 # Binary files and archives
 *.exe
@@ -75,3 +76,12 @@ README.bak.md
 *.tar.gz
 *.dmg
 bin/
+
+# Pandas files
+PANDAS_QUICKSTART.md
+pandas_exercises.py
+pandas_smart_loader.py
+pandas_tutorial.py
+
+# Reports
+reports/
