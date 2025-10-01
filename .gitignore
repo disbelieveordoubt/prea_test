@@ -51,6 +51,7 @@ analysis/temp/
 *~
 sonnetlog.*
 input.txt
+nul
 
 # Test artifacts
 .pytest_cache/
