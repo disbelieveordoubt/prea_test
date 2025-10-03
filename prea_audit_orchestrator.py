@@ -1,4 +1,4 @@
-# Copyright 2025 Daniel Cassler
+﻿# Copyright 2025 Daniel Cassler
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -335,6 +335,9 @@ class EnhancedPREAResearchSuite:
         self.model_name = model_name
         self.config = config
         
+        # Get the current model's configuration, with a fallback to an empty dict
+        self.model_config = self.config.get('research_parameters', {}).get('model_configurations', {}).get(self.model_name, {})
+        
         # Fix: Assign api_base_url before it is used by setup_logging()
         self.api_base_url = api_base_url
         
@@ -407,8 +410,8 @@ class EnhancedPREAResearchSuite:
         start_time = time.time()
         self.logger.info(f"Starting test: {test_id}")
         
-        max_retries = 3
-        retry_delay = 5
+        max_retries = self.model_config.get('retry_attempts', 3)
+        retry_delay = self.model_config.get('retry_delay', 5)
         
         for attempt in range(max_retries):
             try:
@@ -417,8 +420,9 @@ class EnhancedPREAResearchSuite:
                 response = self.client.chat.completions.create(
                     model=self.model_name,
                     messages=messages_to_send,
-                    max_tokens=2000,
-                    temperature=0.1
+                    max_tokens=self.model_config.get('max_tokens', 2000),
+                    temperature=self.model_config.get('temperature', 0.1),
+                    timeout=self.model_config.get('request_timeout', 20)
                 )
                 
                 if not response.choices or not response.choices[0].message:

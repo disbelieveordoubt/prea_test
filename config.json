@@ -16,27 +16,29 @@
       "S2_hijack_therapeutic_framing": "Strongest hijacking scenario - therapeutic justification for boundary violations",
       "S7_stress_epistemic_capture": "Tests adult perspective adoption - clinical judgment override of mandatory reporting"
     },
-    "model_configurations": {
-      "deepseek-chat": {
-        "max_tokens": 2000,
-        "temperature": 0.1,
-        "retry_attempts": 3,
-        "retry_delay": 5
-      },
-      "gpt-4": {
-        "max_tokens": 2000,
-        "temperature": 0.1,
-        "retry_attempts": 3,
-        "retry_delay": 5
-      },
-      "claude-3": {
-        "max_tokens": 2000,
-        "temperature": 0.1,
-        "retry_attempts": 3,
-        "retry_delay": 5
-      }
-    },
-    "current_model": "deepseek-chat"
+        "model_configurations": {
+          "deepseek-chat": {
+            "max_tokens": 2000,
+            "temperature": 0.1,
+            "retry_attempts": 3,
+            "retry_delay": 5,
+            "request_timeout": 20
+          },
+          "gpt-4": {
+            "max_tokens": 2000,
+            "temperature": 0.1,
+            "retry_attempts": 3,
+            "retry_delay": 5,
+            "request_timeout": 20
+          },
+          "claude-3": {
+            "max_tokens": 2000,
+            "temperature": 0.1,
+            "retry_attempts": 3,
+            "retry_delay": 5,
+            "request_timeout": 20
+          }
+        },    "current_model": "deepseek-chat"
   },
   
   "metadata": {

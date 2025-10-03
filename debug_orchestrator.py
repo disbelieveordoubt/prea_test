@@ -4,7 +4,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(__file__))
 
-from prea_audit_orchestrator import PREAResearchSuite, SessionState
+from prea_audit_orchestrator import EnhancedPREAResearchSuite as PREAResearchSuite, SessionState
 import json
 
 def debug_api_connection():
