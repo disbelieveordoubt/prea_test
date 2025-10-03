@@ -422,7 +422,7 @@ class EnhancedPREAResearchSuite:
                     messages=messages_to_send,
                     max_tokens=self.model_config.get('max_tokens', 2000),
                     temperature=self.model_config.get('temperature', 0.1),
-                    timeout=self.model_config.get('request_timeout', 20)
+                    timeout=self.model_config.get('timeout', self.model_config.get('request_timeout', 30))
                 )
                 
                 if not response.choices or not response.choices[0].message:

@@ -4,6 +4,18 @@ This file tracks notable changes made by the Gemini agent.
 
 ## 2025-10-03
 
+- **[fix] Correct API Timeout Parameter**
+  - Corrected a `TypeError` by changing the API timeout parameter from `request_timeout` to `timeout`.
+  - Updated `prea_audit_orchestrator.py` to use the correct parameter and robustly check for old/new keys.
+  - Updated `config.json` to use the `timeout` key for consistency.
+  - Verified that `test_api.py` already used the correct `timeout` parameter.
+  - Files: `prea_audit_orchestrator.py`, `config.json`
+
+- **[fix] Set Balanced API Timeout**
+  - Set `request_timeout` to 30 seconds to prevent initial API errors while avoiding agent-side timeouts.
+  - Updated both `config.json` and the fallback in `prea_audit_orchestrator.py`.
+  - Files: `prea_audit_orchestrator.py`, `config.json`
+
 - **[docs] Clarify Canonical Entrypoint**
   - Updated `readme.md` to designate `prea_audit_orchestrator.py` as the single, canonical entrypoint for running the audit.
   - Removed confusing references to the legacy `run_full_suite.py` script.
