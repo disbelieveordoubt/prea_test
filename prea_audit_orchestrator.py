@@ -5,7 +5,7 @@
 #
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
-# CASSLER-PREA Safety Audit v4.0 - Research Orchestrator
+# CASSLER-PREA Safety Audit v8.6 - Research Orchestrator
 # Author: Daniel Cassler
 # Contact: dcassler@gmail.com
 """
@@ -389,8 +389,8 @@ class EnhancedPREAResearchSuite:
             f.write(f"PREA AI Safety Research Session: {self.session_id}\n")
             f.write("="*80 + "\n")
             f.write("Author: Daniel Cassler\n")
-            f.write(f"Version: {self.config.get('metadata', {}).get('version', '4.0-enhanced')}\n")
-            f.write("Methodology: Cassler-PREA Safety Audit v8.4\n")
+            f.write(f"Version: {self.config.get('metadata', {}).get('version', '8.6')}\n")
+            f.write("Methodology: Cassler-PREA Safety Audit v8.6\n")
             f.write("Ethical Framework: EthicalFoundations-Solo2.md\n")
             f.write("="*80 + "\n\n")
         
@@ -422,7 +422,7 @@ class EnhancedPREAResearchSuite:
                     messages=messages_to_send,
                     max_tokens=self.model_config.get('max_tokens', 2000),
                     temperature=self.model_config.get('temperature', 0.1),
-                    timeout=self.model_config.get('timeout', self.model_config.get('request_timeout', 30))
+                    timeout=self.model_config.get('timeout', 30)
                 )
                 
                 if not response.choices or not response.choices[0].message:
@@ -504,9 +504,9 @@ class EnhancedPREAResearchSuite:
             'vulnerability_target': test_config.get('test_metadata', {}).get('vulnerability_target', ''),
             'gradient_linguistics': test_config.get('test_metadata', {}).get('gradient_linguistics', False),
             'author': 'Daniel Cassler',
-            'research_suite': 'PREA AI Safety Research Orchestrator v4.0',
-            'methodology': 'Cassler-PREA Safety Audit v8.4',
-            'version': self.config.get('metadata', {}).get('version', '4.0-enhanced'),
+            'research_suite': 'PREA AI Safety Research Orchestrator v8.6',
+            'methodology': 'Cassler-PREA Safety Audit v8.6',
+            'version': self.config.get('metadata', {}).get('version', '8.6'),
             'input': {'prompt': user_message, 'test_config': test_config},
             'output': {'response': ai_response, 'word_count': len(ai_response.split()), 'response_time': response_time},
             'detected_patterns': patterns,
@@ -600,8 +600,8 @@ class EnhancedPREAResearchSuite:
             print(f"ERROR: {self.session_state.error_message}")
         print("=" * 60)
         print(f"Author: Daniel Cassler")
-        print(f"Research Suite: PREA AI Safety Research Orchestrator v4.0")
-        print(f"Methodology: Cassler-PREA Safety Audit v8.4")
+        print(f"Research Suite: PREA AI Safety Research Orchestrator v8.6")
+        print(f"Methodology: Cassler-PREA Safety Audit v8.6")
         print("=" * 60)
 
         if not self.test_categories:
@@ -627,7 +627,7 @@ class EnhancedPREAResearchSuite:
             f.write(f"ENHANCED PATTERN DETECTION ANALYSIS - {self.session_id}\n")
             f.write("="*50 + "\n")
             f.write("Author: Daniel Cassler\n")
-            f.write("Methodology: Cassler-PREA Safety Audit v8.4\n")
+            f.write("Methodology: Cassler-PREA Safety Audit v8.6\n")
             f.write("="*50 + "\n\n")
 
             all_results = [res for cat_res in self.test_categories.values() for res in cat_res]
@@ -962,7 +962,7 @@ class EnhancedOrchestrator:
 def main() -> None:
     """Main entry point for enhanced orchestrator"""
     print("="*60)
-    print("PREA AI Safety Research Suite v4.0 - Enhanced Edition")
+    print("PREA AI Safety Research Suite v8.6 - Enhanced Edition")
     print("="*60)
     print("Author: Daniel Cassler")
     print("Mode: Enhanced Pattern Detection with Semantic Gradients")

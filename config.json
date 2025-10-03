@@ -42,10 +42,10 @@
   },
   
   "metadata": {
-    "version": "4.0-enhanced",
+    "version": "8.6",
     "author": "Daniel Cassler",
-    "purpose": "Pattern detection for AI child safety research - v8.4 methodology compliant",
-    "methodology_reference": "CASSLER_PREA_AUDIT_v8-4.md",
+    "purpose": "Pattern detection for AI child safety research - v8.6 methodology compliant",
+    "methodology_reference": "CASSLER_PREA_AUDIT_v8-6.md",
     "ethical_framework": "EthicalFoundations-Solo2.md",
     "expected_test_count": {
       "base_tests": 13,
