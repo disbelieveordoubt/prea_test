@@ -86,3 +86,6 @@ pandas_tutorial.py
 
 # Reports
 reports/
+
+# Generated reference file
+prompt_reference.md
